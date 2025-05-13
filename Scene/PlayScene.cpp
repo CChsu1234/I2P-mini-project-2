@@ -450,19 +450,19 @@ bool PlayScene::CheckSpaceValid(int x, int y) {
     if (map[0][0] == -1)
     return false;
     for (auto &it : EnemyGroup->GetObjects()) {
-    Engine::Point pnt;
-    pnt.x = floor(it->Position.x / BlockSize);
-    pnt.y = floor(it->Position.y / BlockSize);
-    if (pnt.x < 0)
-        pnt.x = 0;
-    if (pnt.x >= MapWidth)
-        pnt.x = MapWidth - 1;
-    if (pnt.y < 0)
-        pnt.y = 0;
-    if (pnt.y >= MapHeight)
-        pnt.y = MapHeight - 1;
-    if (map[pnt.y][pnt.x] == -1)
-        return false;
+        Engine::Point pnt;
+        pnt.x = floor(it->Position.x / BlockSize);
+        pnt.y = floor(it->Position.y / BlockSize);
+        if (pnt.x < 0)
+            pnt.x = 0;
+        if (pnt.x >= MapWidth)
+            pnt.x = MapWidth - 1;
+        if (pnt.y < 0)
+            pnt.y = 0;
+        if (pnt.y >= MapHeight)
+            pnt.y = MapHeight - 1;
+        if (map[pnt.y][pnt.x] == -1)
+            return false;
     }
     // All enemy have path to exit.
     mapState[y][x] = TILE_OCCUPIED;
@@ -478,37 +478,39 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
     std::queue<Engine::Point> que;
     // Push end point.
     // BFS from end point.
-    if (mapState[MapHeight - 1][MapWidth - 1] != TILE_DIRT)
+    if (mapState[MapHeight - 1][MapWidth - 1] != TILE_DIRT) {
         return map;
+    }
     que.push(Engine::Point(MapWidth - 1, MapHeight - 1));
     map[MapHeight - 1][MapWidth - 1] = 0;
-    float dx[4] = {1.0, -1.0, 0.0, 0.0};
-    float dy[4] = {0.0, 0.0, -1.0, 1.0};
+    int dx[4] = {1, -1 ,0 , 0};
+    int dy[4] = {0, 0 ,1 , -1};
+
     while (!que.empty()) {
         Engine::Point p = que.front();
         que.pop();
-        for (int i = 0; i <= 4; i++) {
-            int nx = p.x + dx[i];
-            int ny = p.y + dy[i];
-            std::cout << nx << ' ' << ny << std::endl;
-            if (nx >= MapHeight || nx < 0 || ny >= MapWidth || ny < 0) {
+        int nx, ny;
+        for (int i = 0; i < 4; i++) {
+            nx = p.x + dx[i];
+            ny = p.y + dy[i];
+            if (nx < 0 || nx >= MapWidth || ny < 0 || ny >= MapHeight) {
                 continue;
-            } else if (mapState[nx][ny] == TILE_DIRT) {
-                map[nx][ny] = map[(int)p.x][(int)p.y] + 1;
+            } else if (mapState[ny][nx] == TILE_DIRT && map[ny][nx] == -1) {
+                if (map[ny][nx] == -1) {
+                    map[ny][nx] = map[p.y][p.x] + 1;
+                } else {
+                    map[ny][nx] = (map[p.y][p.x] + 1 > map[ny][nx]) ? map[ny][nx] : map[p.y][p.x] + 1;
+                }
                 que.push(Engine::Point(nx, ny));
+            } else {
+                continue;
             }
         }
-        // TODO PROJECT-1 (1/1): Implement a BFS starting from the most
+        // DONE PROJECT-1 (1/1): Implement a BFS starting from the most
         // right-bottom block in the map.
         //               For each step you should assign the corresponding
         //               distance to the most right-bottom block. mapState[y][x]
         //               is TILE_DIRT if it is empty.
-    }
-    for (int i = 0; i < (int) MapHeight; i++) {
-        for (int j = 0; j < (int) MapWidth; j++) {
-            std::cout << map[i][j];
-        }
-        std::cout << std::endl;
     }
     return map;
 }
