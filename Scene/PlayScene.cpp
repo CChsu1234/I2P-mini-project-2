@@ -24,6 +24,7 @@
 #include "UI/Animation/DirtyEffect.hpp"
 #include "UI/Animation/Plane.hpp"
 #include "UI/Component/Label.hpp"
+#include "File/User.hpp"
 
 // DONE HACKATHON-4 (1/3): Trace how the game handles keyboard input.
 // DONE HACKATHON-4 (2/3): Find the cheat code sequence in this file.
@@ -80,6 +81,16 @@ void PlayScene::Initialize() {
     bgmId = AudioHelper::PlayBGM("play.ogg");
 }
 void PlayScene::Terminate() {
+    UserTable table;
+    User newUser;
+    newUser.name = "[]";
+    newUser.score = money;
+    std::cout << "adduser" << std::endl;
+    table.AddNewUser(newUser);
+    std::cout << "sort" << std::endl;
+    table.Sort();
+    std::cout << "save" << std::endl;
+    table.Save();
     AudioHelper::StopBGM(bgmId);
     AudioHelper::StopSample(deathBGMInstance);
     deathBGMInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
@@ -138,6 +149,7 @@ void PlayScene::Update(float deltaTime) {
     ticks += deltaTime;
     if (enemyWaveData.empty() || cheat_win) {
       if (EnemyGroup->GetObjects().empty() || cheat_win) {
+        cheat_win = false;
         // Free resources.
         /*
         delete GroundEffectGroup;

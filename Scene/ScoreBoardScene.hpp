@@ -6,19 +6,16 @@
 
 #include "Engine/IScene.hpp"
 #include "UI/Component/Label.hpp"
+#include "File/User.hpp"
 
 #define PAGE_LINE 6
 
-typedef struct _User {
-    std::string name;
-    int score;
-} User;
 
 class ScoreBoardScene final : public Engine::IScene {
 private:
     int current_head_line;
     int total_line;
-    User *table;
+    UserTable table;
     std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
     Engine::Label *scoreboard[PAGE_LINE][2];
 

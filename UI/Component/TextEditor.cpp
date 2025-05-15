@@ -2,6 +2,7 @@
 #include "UI/Component/ImageButton.hpp"
 #include "UI/Component/Label.hpp"
 #include <allegro5/allegro.h>
+#include <iostream>
 #include <string>
 
 namespace Engine {
@@ -90,6 +91,7 @@ namespace Engine {
             }
         } 
         label.Text = TextLine;
+        std::cout << TextLine << std::endl;
     }
     void TextEditor::OnKeyUp(int keycode) {
         if (keycode == ALLEGRO_KEY_LSHIFT || keycode == ALLEGRO_KEY_RSHIFT) {
@@ -100,6 +102,9 @@ namespace Engine {
     void TextEditor::Draw(void) const {
         ImageButton::Draw();
         label.Draw();
+    }
+    std::string TextEditor::getTextLine(void) {
+        return TextLine;
     }
 }
 

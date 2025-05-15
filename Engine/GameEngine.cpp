@@ -226,6 +226,7 @@ namespace Engine {
         destroy();
     }
     void GameEngine::AddNewScene(const std::string &name, IScene *scene) {
+        std::cout << "add scene " << name << std::endl;
         if (scenes.count(name) != 0)
             throw std::invalid_argument("Cannot add scenes with the same name.");
         scenes[name] = scene;

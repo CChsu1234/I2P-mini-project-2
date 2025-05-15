@@ -11,9 +11,8 @@
 #include "UI/Component/Label.hpp"
 #include "UI/Component/TextEditor.hpp"
 #include "RecordScene.hpp"
+#include "File/User.hpp"
 Engine::TextEditor *editor;
-FILE *fr;
-FILE *fw;
 
 void RecordScene::Initialize() {
     ticks = 0;
@@ -27,7 +26,7 @@ void RecordScene::Initialize() {
     btn = new Engine::ImageButton("win/dirt.png", "win/floor.png", halfW - 200, halfH * 7 / 4 - 50, 400, 100);
     btn->SetOnClickCallback(std::bind(&RecordScene::BackOnClick, this, 2));
     AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("Back", "pirulen.ttf", 48, halfW, halfH * 7 / 4, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("Save", "pirulen.ttf", 48, halfW, halfH * 7 / 4, 0, 0, 0, 255, 0.5, 0.5));
 
     AddNewControlObject(editor = new Engine::TextEditor("win/dirt.png", "win/floor.png", "pirulen.ttf", 32, halfW - 400, halfH, 800, 100, 0, 0, 0, 255, 0, 0.5));
     /*
@@ -48,6 +47,10 @@ void RecordScene::Update(float deltaTime) {
     }
 }
 void RecordScene::BackOnClick(int stage) {
+    UserTable table;
+    table.GiveName(editor->getTextLine());
+    table.Sort();
+    table.Save();
     // Change to select scene.
     Engine::GameEngine::GetInstance().ChangeScene("stage-select");
 }

@@ -21,17 +21,9 @@ void ScoreBoardScene::Initialize() {
     int halfH = h / 2;
     Engine::ImageButton *btn;
 
-    FILE *fr = fopen("Resource/scoreboard.txt", "r");
-
-    if (fr) {
-        fscanf(fr, "%d\n", &total_line);
-        table = new User[total_line];
-        for (int i = 0; i < total_line; i++) {
-            char tempname[500];
-            fscanf(fr, "%s %d\n", tempname, &table[i].score);
-            table[i].name = tempname;
-        }
-    }
+    table.Update();
+    table.Sort();
+    total_line = table.size();
 
     for (int i = 0; i < PAGE_LINE && i < total_line; i++) {
         AddNewObject(scoreboard[i][0] = new Engine::Label(std::to_string(i + 1) + ". "+ table[i].name, "pirulen.ttf", 28, halfW * 2 / 3, halfH +  50 * (i - PAGE_LINE / 2), 255, 255, 255, 255, 0, 0.5, 0));

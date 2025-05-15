@@ -7,7 +7,7 @@
 namespace Engine {
     class TextEditor : public ImageButton {
     private:
-        std::string TextLine = "";
+        std::string TextLine;
         bool ShiftPressed;
         bool Editting;
         Label label;
@@ -19,6 +19,7 @@ namespace Engine {
         void OnKeyUp(int keycode) override;
         void Draw(void) const override;
         void ToggleEditting(void);
+        std::string getTextLine(void);
     };
 }
 
