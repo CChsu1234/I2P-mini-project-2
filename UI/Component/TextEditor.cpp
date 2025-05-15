@@ -91,7 +91,6 @@ namespace Engine {
             }
         } 
         label.Text = TextLine;
-        std::cout << TextLine << std::endl;
     }
     void TextEditor::OnKeyUp(int keycode) {
         if (keycode == ALLEGRO_KEY_LSHIFT || keycode == ALLEGRO_KEY_RSHIFT) {

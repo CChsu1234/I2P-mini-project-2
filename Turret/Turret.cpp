@@ -26,6 +26,9 @@ void Turret::Update(float deltaTime) {
     if (!Enabled)
         return;
     if (Target) {
+        if (Target != scene->EnemyGroup->GetObjects().front()) {
+            Target = dynamic_cast<Enemy *>(scene->EnemyGroup->GetObjects().front());
+        }
         Engine::Point diff = Target->Position - Position;
         if (diff.Magnitude() > CollisionRadius) {
             Target->lockedTurrets.erase(lockedTurretIterator);

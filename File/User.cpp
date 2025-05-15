@@ -6,17 +6,13 @@
 
 
 UserTable::UserTable(void) {
-    std::cout << "init user table" << std::endl;
+    clearTable();
     FILE *fr = fopen("Resource/scoreboard.txt", "r");
 
-
-    capacity = 100;
     if (fr) {
         int init_user;
         fscanf(fr, "%d\n", &init_user);
-        std::cout << "new user table" << std::endl;
         table = new User[capacity];
-        std::cout << "total user " << total_user << std::endl;
         for (int i = 0; i < init_user; i++) {
             char tempname[500];
             int tempscore;
@@ -24,7 +20,6 @@ UserTable::UserTable(void) {
             User tempUser;
             tempUser.name = tempname;
             tempUser.score = tempscore;
-            std::cout << "add new user " << i + 1 << std::endl;
             AddNewUser(tempUser);
         }
     }

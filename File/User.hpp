@@ -11,7 +11,7 @@ class UserTable {
 private:
     int total_user;
     User *table;
-    int capacity;
+    int capacity = 100;
     void resizeTable(void);
 public:
     UserTable(void);
