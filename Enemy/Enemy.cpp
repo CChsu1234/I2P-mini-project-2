@@ -11,6 +11,7 @@
 #include "Engine/GameEngine.hpp"
 #include "Engine/Group.hpp"
 #include "Engine/IScene.hpp"
+#include "Engine/Sprite.hpp"
 #include "Engine/LOG.hpp"
 #include "Scene/PlayScene.hpp"
 #include "Turret/Turret.hpp"
@@ -31,11 +32,15 @@ void Enemy::OnExplode() {
         getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
     }
 }
-Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float hp, int money) : Engine::Sprite(img, x, y), speed(speed),  hp(hp), money(money) {
+Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float hp, int money, std::string fire)
+    : Engine::Sprite(img, x, y), speed(speed),  hp(hp), money(money) {
     CollisionRadius = radius;
     reachEndTime = 0;
+    HitCountDown = 0;
+    Fire = new Engine::Sprite(fire, x, y, 50, 50);
 }
 void Enemy::Hit(float damage) {
+    HitCountDown = 0.1;
     hp -= damage;
     if (hp <= 0) {
         OnExplode();
@@ -48,6 +53,10 @@ void Enemy::Hit(float damage) {
         getPlayScene()->EnemyGroup->RemoveObject(objectIterator);
         AudioHelper::PlayAudio("explosion.wav");
     }
+}
+void Enemy::Burn(float damage, float Time) {
+    BurnCountDown = Time;
+    BurnDamage = damage;
 }
 void Enemy::UpdatePath(const std::vector<std::vector<int>> &mapDistance) {
     int x = static_cast<int>(floor(Position.x / PlayScene::BlockSize));
@@ -84,6 +93,18 @@ void Enemy::UpdatePath(const std::vector<std::vector<int>> &mapDistance) {
 }
 void Enemy::Update(float deltaTime) {
     // Pre-calculate the velocity.
+    if (HitCountDown > 0) {
+        Tint = al_map_rgba(255, 0, 0, 255);
+        HitCountDown -= deltaTime;
+    } else {
+        Tint = al_map_rgba(255, 255, 255, 255);
+    }
+
+    if (BurnCountDown > 0) {
+        BurnCountDown -= deltaTime;
+        Hit(BurnCountDown * deltaTime);
+    }
+
     float remainSpeed = speed * deltaTime;
     while (remainSpeed != 0) {
         if (path.empty()) {
@@ -113,11 +134,16 @@ void Enemy::Update(float deltaTime) {
     }
     Rotation = atan2(Velocity.y, Velocity.x);
     Sprite::Update(deltaTime);
+    Fire->Position.x = Position.x;
+    Fire->Position.y = Position.y;
 }
 void Enemy::Draw() const {
     Sprite::Draw();
     if (PlayScene::DebugMode) {
         // Draw collision radius.
         al_draw_circle(Position.x, Position.y, CollisionRadius, al_map_rgb(255, 0, 0), 2);
+    }
+    if (BurnCountDown > 0) {
+        Fire->Draw();
     }
 }

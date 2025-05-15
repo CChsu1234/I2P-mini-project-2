@@ -1,6 +1,8 @@
 #ifndef ROCKETBULLET_HPP
 #define ROCKETBULLET_HPP
 #include "Bullet.hpp"
+#include "Enemy/Enemy.hpp"
+#include "list"
 
 class Enemy;
 class Turret;

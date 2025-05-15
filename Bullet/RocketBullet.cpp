@@ -1,6 +1,7 @@
 #include <allegro5/base.h>
 #include <random>
 #include <string>
+#include <list>
 
 #include "Enemy/Enemy.hpp"
 #include "Engine/Group.hpp"
@@ -12,8 +13,9 @@
 
 class Turret;
 
-RocketBullet::RocketBullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Turret *parent) : Bullet("play/bullet-3.png", 500, 25, position, forwardDirection, rotation - ALLEGRO_PI / 2, parent) {
-}
+RocketBullet::RocketBullet(Engine::Point position, Engine::Point forwardDirection, float rotation, Turret *parent) 
+    : Bullet("play/bullet-3.png", 500, 25, position, forwardDirection, rotation - ALLEGRO_PI / 2, parent) {
+    }
 void RocketBullet::OnExplode(Enemy *enemy) {
     std::random_device dev;
     std::mt19937 rng(dev());
@@ -25,18 +27,14 @@ void RocketBullet::Update(float deltaTime) {
     PlayScene *scene = getPlayScene();
     // Can be improved by Spatial Hash, Quad Tree, ...
     // However simply loop through all enemies is enough for this program.
-    bool hit = false;
     for (auto &it : scene->EnemyGroup->GetObjects()) {
         Enemy *enemy = dynamic_cast<Enemy *>(it);
         if (!enemy->Visible)
             continue;
         if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, enemy->Position, enemy->CollisionRadius)) {
             OnExplode(enemy);
-            enemy->Hit(damage);
+            enemy->Burn(damage * 0.01, 50);
             getPlayScene()->BulletGroup->RemoveObject(objectIterator);
-            hit = true;
-        }
-        if (hit) {
             return;
         }
     }
