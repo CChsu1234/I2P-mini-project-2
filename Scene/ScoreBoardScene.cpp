@@ -20,26 +20,22 @@ void ScoreBoardScene::Initialize() {
     int halfW = w / 2;
     int halfH = h / 2;
     Engine::ImageButton *btn;
+
     FILE *fr = fopen("Resource/scoreboard.txt", "r");
-    if (fr == NULL) {
-        ;
-    } else {
+
+    if (fr) {
         fscanf(fr, "%d\n", &total_line);
-        std::cout << total_line << std::endl;
         table = new User[total_line];
         for (int i = 0; i < total_line; i++) {
-            char tempname[20];
+            char tempname[500];
             fscanf(fr, "%s %d\n", tempname, &table[i].score);
             table[i].name = tempname;
-            std::cout << table[i].name << table[i].score << std::endl;
         }
     }
-    fclose(fr);
-
 
     for (int i = 0; i < PAGE_LINE && i < total_line; i++) {
-        AddNewObject(scoreboard[i][0] = new Engine::Label(std::to_string(i + 1) + ". "+ table[i].name, "pirulen.ttf", 28, halfW * 2 / 3, halfH +  50 * (i - PAGE_LINE / 2), 255, 255, 255, 255, 0.5, 0.5, 2));
-        AddNewObject(scoreboard[i][1] = new Engine::Label(std::to_string(table[i].score), "pirulen.ttf", 28, halfW * 4 / 3, halfH +  50 * (i - PAGE_LINE / 2), 255, 255, 255, 255, 0.5, 0.5, 2));
+        AddNewObject(scoreboard[i][0] = new Engine::Label(std::to_string(i + 1) + ". "+ table[i].name, "pirulen.ttf", 28, halfW * 2 / 3, halfH +  50 * (i - PAGE_LINE / 2), 255, 255, 255, 255, 0, 0.5, 0));
+        AddNewObject(scoreboard[i][1] = new Engine::Label(std::to_string(table[i].score), "pirulen.ttf", 28, halfW * 4 / 3, halfH +  50 * (i - PAGE_LINE / 2), 255, 255, 255, 255, 0.5, 0, 0));
     }
     current_head_line = 0;
 
@@ -82,7 +78,7 @@ void ScoreBoardScene::PageUpOnClick(int line) {
     current_head_line++;
     for (int i = 0; i < PAGE_LINE; i++) {
         scoreboard[i][0]->Text = (i + current_head_line < total_line) ? (std::to_string(i + current_head_line + 1) + ". " + table[i + current_head_line].name) : "" ;
-        scoreboard[i][1]->Text = (i + current_head_line < total_line) ? std::to_string(table[i].score) : "" ;
+        scoreboard[i][1]->Text = (i + current_head_line < total_line) ? std::to_string(table[i + current_head_line].score) : "" ;
     }
 }
 void ScoreBoardScene::PageDownOnClick(int line) {
@@ -92,6 +88,6 @@ void ScoreBoardScene::PageDownOnClick(int line) {
     current_head_line--;
     for (int i = 0; i < PAGE_LINE && i + current_head_line < total_line; i++) {
         scoreboard[i][0]->Text = (i + current_head_line < total_line) ? (std::to_string(i + current_head_line + 1) + ". " + table[i + current_head_line].name) : "" ;
-        scoreboard[i][1]->Text = (i + current_head_line < total_line) ? std::to_string(table[i].score) : "" ;
+        scoreboard[i][1]->Text = (i + current_head_line < total_line) ? std::to_string(table[i + current_head_line].score) : "" ;
     }
 }

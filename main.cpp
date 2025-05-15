@@ -10,6 +10,7 @@
 #include "Scene/StartScene.hpp"
 #include "Scene/SettingsScene.hpp"
 #include "Scene/ScoreBoardScene.hpp"
+#include "Scene/RecordScene.hpp"
 
 int main(int argc, char **argv) {
 	Engine::LOG::SetConfig(true);
@@ -20,7 +21,7 @@ int main(int argc, char **argv) {
     game.AddNewScene("start", new StartScene());
     game.AddNewScene("settings", new SettingsScene());
     game.AddNewScene("scoreboard", new ScoreBoardScene());
-    game.AddNewScene("win-scene", new WinScene());
+    game.AddNewScene("record", new RecordScene());
 	game.AddNewScene("play", new PlayScene());
 	game.AddNewScene("lose", new LoseScene());
 	game.AddNewScene("win", new WinScene());

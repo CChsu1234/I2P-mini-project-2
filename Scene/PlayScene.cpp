@@ -152,7 +152,7 @@ void PlayScene::Update(float deltaTime) {
         */
         // Win.
         std::cout << "change" << std::endl;
-        Engine::GameEngine::GetInstance().ChangeScene("win-scene");
+        Engine::GameEngine::GetInstance().ChangeScene("win");
       }
       continue;
     }

@@ -18,8 +18,8 @@ class ScoreBoardScene final : public Engine::IScene {
 private:
     int current_head_line;
     int total_line;
-    std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
     User *table;
+    std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
     Engine::Label *scoreboard[PAGE_LINE][2];
 
 public:
