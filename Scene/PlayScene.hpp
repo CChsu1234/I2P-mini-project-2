@@ -60,6 +60,7 @@ public:
     Turret *preview;
     std::vector<std::vector<TileType>> mapState;
     std::vector<std::vector<int>> mapDistance;
+    std::vector<std::vector<int>> mapPrice;
     std::list<std::pair<int, float>> enemyWaveData;
     std::list<int> keyStrokes;
     static Engine::Point GetClientSize();
@@ -80,6 +81,7 @@ public:
     void ConstructUI();
     void UIBtnClicked(int id);
     bool CheckSpaceValid(int x, int y);
+    bool CheckSpaceOccupied(int x, int y);
     std::vector<std::vector<int>> CalculateBFSDistance();
     // void ModifyReadMapTiles();
 };
