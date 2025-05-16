@@ -57,6 +57,12 @@ void UserTable::Update(void) {
 void UserTable::Save(void) {
     FILE *fw = fopen("Resource/scoreboard.txt", "w");
 
+    for (int i = 0; i < total_user; i++) {
+        if (table[i].name == "[]") {
+            total_user = i;
+        }
+    }
+
     fprintf(fw, "%d\n", total_user);
 
     for (int i = 0; i < total_user; i++) {
@@ -67,6 +73,11 @@ void UserTable::Save(void) {
 }
 void UserTable::Sort(void) {
     std::sort(table, table + total_user, [](User u1, User u2) {
+        if (u1.name == "[]" && u2.name != "[]") {
+            return false;
+        } else if (u2.name == "[]" && u1.name != "[]") {
+            return true;
+        }
         return u1.score > u2.score;
     });
 }

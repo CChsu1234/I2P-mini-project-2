@@ -32,11 +32,12 @@ void Enemy::OnExplode() {
         getPlayScene()->GroundEffectGroup->AddNewObject(new DirtyEffect("play/dirty-" + std::to_string(distId(rng)) + ".png", dist(rng), Position.x, Position.y));
     }
 }
-Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float hp, int money, std::string fire)
-    : Engine::Sprite(img, x, y), speed(speed),  hp(hp), money(money) {
+Enemy::Enemy(std::string img, float x, float y, float radius, float speed, float hp, int money, float h, float w, std::string fire)
+    : Engine::Sprite(img, x, y, h, w), speed(speed), max_hp(hp),  hp(hp), money(money) {
     CollisionRadius = radius;
     reachEndTime = 0;
     HitCountDown = 0;
+    BurnCountDown = 0;
     Fire = new Engine::Sprite(fire, x, y, 50, 50);
 }
 void Enemy::Hit(float damage) {
@@ -146,4 +147,7 @@ void Enemy::Draw() const {
     if (BurnCountDown > 0) {
         Fire->Draw();
     }
+}
+float Enemy::getMaxHP(void) {
+    return max_hp;
 }

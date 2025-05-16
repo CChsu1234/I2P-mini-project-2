@@ -6,5 +6,6 @@
 class TankyEnemy : public Enemy {
 public:
     TankyEnemy(int x, int y);
+    void Hit(float damage) override;
 };
 #endif   // TANKYENEMT_HPP

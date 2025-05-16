@@ -37,12 +37,12 @@ void ScoreBoardScene::Initialize() {
     AddNewObject(new Engine::Label("Back", "pirulen.ttf", 48, halfW, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
 
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW * 1 / 2 - 250, halfH * 3 / 2 - 50, 400, 100);
-    btn->SetOnClickCallback(std::bind(&ScoreBoardScene::PageDownOnClick, this, 1));
+    btn->SetOnClickCallback(std::bind(&ScoreBoardScene::DownOnClick, this, 1));
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("PAGE DOWN", "pirulen.ttf", 48, halfW * 1 / 2 - 50, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
 
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW  * 3 / 2 - 150, halfH * 3 / 2 - 50, 400, 100);
-    btn->SetOnClickCallback(std::bind(&ScoreBoardScene::PageUpOnClick, this, 1));
+    btn->SetOnClickCallback(std::bind(&ScoreBoardScene::UpOnClick, this, 1));
     AddNewControlObject(btn);
     AddNewObject(new Engine::Label("PAGE UP", "pirulen.ttf", 48, halfW * 3 / 2 + 50, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
     /*
@@ -63,9 +63,9 @@ void ScoreBoardScene::Terminate() {
 void ScoreBoardScene::BackOnClick(int stage) {
     Engine::GameEngine::GetInstance().ChangeScene("start");
 }
-void ScoreBoardScene::PageUpOnClick(int line) {
-    if (current_head_line == total_line - 1) {
-        return;
+void ScoreBoardScene::UpOnClick(int line) {
+    if (current_head_line  + line >= total_line - 1) {
+        current_head_line = total_line - 2;
     }
     current_head_line++;
     for (int i = 0; i < PAGE_LINE; i++) {
@@ -73,9 +73,9 @@ void ScoreBoardScene::PageUpOnClick(int line) {
         scoreboard[i][1]->Text = (i + current_head_line < total_line) ? std::to_string(table[i + current_head_line].score) : "" ;
     }
 }
-void ScoreBoardScene::PageDownOnClick(int line) {
-    if (current_head_line == 0) {
-        return;
+void ScoreBoardScene::DownOnClick(int line) {
+    if (current_head_line - line <= 0) {
+        current_head_line = 0;
     }
     current_head_line--;
     for (int i = 0; i < PAGE_LINE && i + current_head_line < total_line; i++) {

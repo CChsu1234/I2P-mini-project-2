@@ -266,7 +266,6 @@ void PlayScene::OnMouseUp(int button, int mx, int my) {
                     int tx = turret->Position.x / BlockSize;
                     int ty = turret->Position.y / BlockSize;
                     if (tx >= x && tx <= x + 1 && ty >= y && ty <= y + 1) {
-                        std::cout << "remove" << std::endl;
                         TowerGroup->RemoveObject(turret->GetObjectIterator());
                         EarnMoney(mapPrice[y][x] / 2);
                         mapPrice[y][x] = 0;

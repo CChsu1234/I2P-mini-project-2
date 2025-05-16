@@ -24,8 +24,8 @@ public:
     void Initialize() override;
     void Terminate() override;
     void BackOnClick(int stage);
-    void PageUpOnClick(int line);
-    void PageDownOnClick(int line);
+    void UpOnClick(int line);
+    void DownOnClick(int line);
 };
 
 #endif   // ScoreBoardScene_HPP

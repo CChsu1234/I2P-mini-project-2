@@ -12,6 +12,8 @@ class PlayScene;
 class Turret : public Engine::Sprite {
 protected:
     int price;
+    float hp;
+    float max_hp;
     float coolDown;
     float reload = 0;
     float rotateRadian = 2 * ALLEGRO_PI;
@@ -28,6 +30,7 @@ public:
     Turret(std::string imgBase, std::string imgTurret, float x, float y, float radius, int price, float coolDown);
     void Update(float deltaTime) override;
     void Draw() const override;
+    void Hit(float damage);
     int GetPrice() const;
 };
 #endif   // TURRET_HPP
