@@ -1,31 +1,23 @@
 #include <string>
 #include <cstring>
+#include <ctime>
 #include <algorithm>
 #include <iostream>
+#include <fstream>
 #include "File/User.hpp"
 
 
+std::istream &operator>>(std::istream &in, User &user) {
+    in >> user.name >> user.score;
+    return in;
+}
+std::ostream &operator<<(std::ostream &out, User &user) {
+    out << user.name << ' ' << user.score << '\n';
+    return out;
+}
 UserTable::UserTable(void) {
-    clearTable();
-    FILE *fr = fopen("Resource/scoreboard.txt", "r");
-
-    if (fr) {
-        int init_user;
-        fscanf(fr, "%d\n", &init_user);
-        table = new User[capacity];
-        for (int i = 0; i < init_user; i++) {
-            char tempname[500];
-            int tempscore;
-            fscanf(fr, "%s %d\n", tempname, &tempscore);
-            User tempUser;
-            tempUser.name = tempname;
-            tempUser.score = tempscore;
-            AddNewUser(tempUser);
-        }
-    }
-
-    
-    fclose(fr);
+    table = new User[capacity];
+    Update();
     Sort();
 }
 void UserTable::clearTable(void) {
@@ -34,6 +26,22 @@ void UserTable::clearTable(void) {
 void UserTable::Update(void) {
     clearTable();
 
+    std::ifstream in;
+
+    in.open("Resource/scoreboard.txt");
+
+    int now_user;
+    User Useri;
+    char ignore;
+    in >> now_user;
+    std::cout << now_user << std::endl;
+    for (int i = 0; i < now_user; i++) {
+        in >> Useri;
+        AddNewUser(Useri);
+    }
+
+    in.close();
+    /*
     FILE *fr = fopen("Resource/scoreboard.txt", "r");
 
     if (fr) {
@@ -50,26 +58,43 @@ void UserTable::Update(void) {
             AddNewUser(tempUser);
         }
     }
-
     fclose(fr);
+    */
+
     Sort();
 }
 void UserTable::Save(void) {
-    FILE *fw = fopen("Resource/scoreboard.txt", "w");
 
+    std::ofstream out;
+    out.open("Resource/scoreboard.txt");
+
+    out << total_user << '\n';
+
+    for (int i = 0; i < total_user; i++) {
+        out << table[i];
+    }
+
+    out.close();
+
+    /*
     for (int i = 0; i < total_user; i++) {
         if (table[i].name == "[]") {
             total_user = i;
         }
     }
+    */
+    /*
+    FILE *fw = fopen("Resource/scoreboard.txt", "w");
 
     fprintf(fw, "%d\n", total_user);
 
     for (int i = 0; i < total_user; i++) {
-        fprintf(fw, "%s %d\n", table[i].name.data(), table[i].score);
+        fprintf(fw, "%s %d\n",
+            table[i].name.data(), table[i].score);
     }
 
     fclose(fw);
+    */
 }
 void UserTable::Sort(void) {
     std::sort(table, table + total_user, [](User u1, User u2) {

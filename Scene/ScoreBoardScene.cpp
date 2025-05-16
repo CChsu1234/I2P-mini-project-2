@@ -56,6 +56,7 @@ void ScoreBoardScene::Initialize() {
     bgmInstance = AudioHelper::PlaySample("scoreboard.ogg", true, AudioHelper::BGMVolume);
 }
 void ScoreBoardScene::Terminate() {
+    table.Save();
     AudioHelper::StopSample(bgmInstance);
     bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
     IScene::Terminate();
@@ -64,6 +65,9 @@ void ScoreBoardScene::BackOnClick(int stage) {
     Engine::GameEngine::GetInstance().ChangeScene("start");
 }
 void ScoreBoardScene::UpOnClick(int line) {
+    if (total_line <= PAGE_LINE) {
+        return;
+    }
     if (current_head_line  + line >= total_line - 1) {
         current_head_line = total_line - 2;
     }
@@ -74,6 +78,9 @@ void ScoreBoardScene::UpOnClick(int line) {
     }
 }
 void ScoreBoardScene::DownOnClick(int line) {
+    if (total_line <= PAGE_LINE) {
+        return;
+    }
     if (current_head_line - line <= 0) {
         current_head_line = 0;
     }

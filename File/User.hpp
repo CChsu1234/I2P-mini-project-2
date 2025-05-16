@@ -1,6 +1,10 @@
 #ifndef USER_HPP
 #define USER_HPP
 #include <string>
+#include <ctime>
+#include <fstream>
+#include <iostream>
+
 
 typedef struct _User {
     int score;
@@ -23,5 +27,7 @@ public:
     User& operator[](int idx);
     int size (void);
     void GiveName(std::string name);
+    friend std::istream &operator>>(std::istream &in, User &user);
+    friend std::ostream &operator<<(std::ostream &out, User &user);
 };
 #endif

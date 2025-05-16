@@ -1,6 +1,7 @@
 # IDEs
 .idea
 .vscode
+*.pdf
 
 # Linked files
 # But keep allegro for convenience
