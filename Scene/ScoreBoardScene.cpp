@@ -53,7 +53,7 @@ void ScoreBoardScene::Initialize() {
     */
 
     // Not safe if release resource while playing, however we only free while change scene, so it's fine.
-    bgmInstance = AudioHelper::PlaySample("select.ogg", true, AudioHelper::BGMVolume);
+    bgmInstance = AudioHelper::PlaySample("scoreboard.ogg", true, AudioHelper::BGMVolume);
 }
 void ScoreBoardScene::Terminate() {
     AudioHelper::StopSample(bgmInstance);
