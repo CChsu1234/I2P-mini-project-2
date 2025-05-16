@@ -33,7 +33,7 @@ void RocketBullet::Update(float deltaTime) {
             continue;
         if (Engine::Collider::IsCircleOverlap(Position, CollisionRadius, enemy->Position, enemy->CollisionRadius)) {
             OnExplode(enemy);
-            enemy->Burn(damage * 0.01, 50);
+            enemy->Burn(damage * 0.5, 10);
             getPlayScene()->BulletGroup->RemoveObject(objectIterator);
             return;
         }

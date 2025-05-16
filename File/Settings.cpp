@@ -1,13 +1,20 @@
 #include <cstdio>
 
 #include "Settings.hpp"
+#include "fstream"
 
 Settings::Settings(void) {
-    FILE *fr = fopen("Resource/settings.txt", "r");
 
-    int temp_sfx;
+    std::ifstream in;
+
+    in.open("Resource/settings.txt");
+
     int temp_bgm;
-    fscanf(fr, "%d\n%d\n", &temp_bgm, &temp_sfx);
+    int temp_sfx;
+
+    in >> temp_bgm >> temp_sfx;
+
+    in.close();
 
     bgm_volume = temp_bgm * 0.01;
     if (bgm_volume > 1.0) {
@@ -23,19 +30,22 @@ Settings::Settings(void) {
     if (sfx_volume < 0) {
         sfx_volume = 0;
     }
+
     AudioHelper::BGMVolume = bgm_volume;
     AudioHelper::SFXVolume = sfx_volume;
-    fclose(fr);
 }
 void Settings::Save(void) {
-    FILE *fw = fopen("Resource/settings.txt", "w");
+
+    std::ofstream out;
+
+    out.open("Resource/settings.txt");
     
     bgm_volume = AudioHelper::BGMVolume;
     sfx_volume = AudioHelper::SFXVolume;
     int temp_bgm = bgm_volume * 100;
     int temp_sfx = sfx_volume * 100;
 
-    fprintf(fw, "%d\n%d\n", temp_bgm, temp_sfx);
+    out << temp_bgm << '\n' << temp_sfx << '\n';
 
-    fclose(fw);
+    out.close();
 }

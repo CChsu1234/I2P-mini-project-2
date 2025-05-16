@@ -89,6 +89,7 @@ void PlayScene::Terminate() {
     User newUser;
     newUser.name = "[]";
     newUser.score = money;
+    newUser.time = "--";
     table.AddNewUser(newUser);
     table.Sort();
     table.Save();

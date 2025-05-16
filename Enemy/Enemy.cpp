@@ -94,18 +94,6 @@ void Enemy::UpdatePath(const std::vector<std::vector<int>> &mapDistance) {
 }
 void Enemy::Update(float deltaTime) {
     // Pre-calculate the velocity.
-    if (HitCountDown > 0) {
-        Tint = al_map_rgba(255, 0, 0, 255);
-        HitCountDown -= deltaTime;
-    } else {
-        Tint = al_map_rgba(255, 255, 255, 255);
-    }
-
-    if (BurnCountDown > 0) {
-        BurnCountDown -= deltaTime;
-        Hit(BurnCountDown * deltaTime);
-    }
-
     float remainSpeed = speed * deltaTime;
     while (remainSpeed != 0) {
         if (path.empty()) {
@@ -137,6 +125,21 @@ void Enemy::Update(float deltaTime) {
     Sprite::Update(deltaTime);
     Fire->Position.x = Position.x;
     Fire->Position.y = Position.y;
+    
+    if (HitCountDown > 0) {
+        Tint = al_map_rgba(255, 0, 0, 255);
+        HitCountDown -= deltaTime;
+    } else {
+        HitCountDown = 0;
+        Tint = al_map_rgba(255, 255, 255, 255);
+    }
+
+    if (BurnCountDown > 0) {
+        BurnCountDown -= deltaTime;
+        Hit(BurnCountDown * deltaTime);
+    } else {
+        BurnCountDown = 0;
+    }
 }
 void Enemy::Draw() const {
     Sprite::Draw();

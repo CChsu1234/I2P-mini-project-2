@@ -17,7 +17,7 @@ private:
     int total_line;
     UserTable table;
     std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
-    Engine::Label *scoreboard[PAGE_LINE][2];
+    Engine::Label *scoreboard[PAGE_LINE][3];
 
 public:
     explicit ScoreBoardScene() = default;

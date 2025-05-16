@@ -4,11 +4,13 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 
 typedef struct _User {
     int score;
     std::string name;
+    std::string time;
 } User;
 
 class UserTable {
@@ -21,7 +23,7 @@ public:
     UserTable(void);
     void Update(void);
     void clearTable();
-    void Save(void);
+    void Save(bool dontchange = false);
     void Sort(void);
     void AddNewUser(User newuser);
     User& operator[](int idx);

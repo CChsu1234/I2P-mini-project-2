@@ -8,11 +8,20 @@
 
 
 std::istream &operator>>(std::istream &in, User &user) {
-    in >> user.name >> user.score;
+    // Fri May 16 14:25:00 2025
+    std::string day;
+    std::string month;
+    int date;
+    std::string yymmss;
+    int year;
+    in >> user.name >> user.score >> day >> month >> date >> yymmss >> year;
+    std::stringstream ss;
+    ss << day << ' ' << month << ' ' << date << ' ' << yymmss << ' ' << year;
+    user.time = ss.str();
     return in;
 }
 std::ostream &operator<<(std::ostream &out, User &user) {
-    out << user.name << ' ' << user.score << '\n';
+    out << user.name << ' ' << user.score << ' ' << user.time << '\n';
     return out;
 }
 UserTable::UserTable(void) {
@@ -34,9 +43,9 @@ void UserTable::Update(void) {
     User Useri;
     char ignore;
     in >> now_user;
-    std::cout << now_user << std::endl;
     for (int i = 0; i < now_user; i++) {
         in >> Useri;
+        std::cout << Useri << std::endl;
         AddNewUser(Useri);
     }
 
@@ -63,7 +72,7 @@ void UserTable::Update(void) {
 
     Sort();
 }
-void UserTable::Save(void) {
+void UserTable::Save(bool dontchange) {
 
     std::ofstream out;
     out.open("Resource/scoreboard.txt");
@@ -71,6 +80,12 @@ void UserTable::Save(void) {
     out << total_user << '\n';
 
     for (int i = 0; i < total_user; i++) {
+        if (!dontchange) {
+            if (table[i].time == "--") {
+                std::time_t cur_time = std::time(nullptr);
+                table[i].time = std::asctime(std::localtime(&cur_time));
+            }
+        }
         out << table[i];
     }
 
