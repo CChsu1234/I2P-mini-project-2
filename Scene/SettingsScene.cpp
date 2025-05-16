@@ -12,6 +12,7 @@
 #include "UI/Component/ImageButton.hpp"
 #include "UI/Component/Label.hpp"
 #include "UI/Component/Slider.hpp"
+#include "File/Settings.hpp"
 
 void SettingsScene::Initialize() {
     int w = Engine::GameEngine::GetInstance().GetScreenSize().x;
@@ -41,6 +42,7 @@ void SettingsScene::Initialize() {
     sliderSFX->SetValue(AudioHelper::SFXVolume);
 }
 void SettingsScene::Terminate() {
+    settings.Save();
     AudioHelper::StopSample(bgmInstance);
     bgmInstance = std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE>();
     IScene::Terminate();

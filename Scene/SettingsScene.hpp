@@ -5,10 +5,12 @@
 #include <memory>
 
 #include "Engine/IScene.hpp"
+#include "File/Settings.hpp"
 
 class SettingsScene final : public Engine::IScene {
 private:
     std::shared_ptr<ALLEGRO_SAMPLE_INSTANCE> bgmInstance;
+    Settings settings;
 
 public:
     explicit SettingsScene() = default;

@@ -11,8 +11,10 @@
 #include "Scene/SettingsScene.hpp"
 #include "Scene/ScoreBoardScene.hpp"
 #include "Scene/RecordScene.hpp"
+#include "File/Settings.hpp"
 
 int main(int argc, char **argv) {
+
 	Engine::LOG::SetConfig(true);
 	Engine::GameEngine& game = Engine::GameEngine::GetInstance();
 
@@ -27,6 +29,9 @@ int main(int argc, char **argv) {
 	game.AddNewScene("win", new WinScene());
 
     // DONE HACKATHON-1 (1/1): Change the start scene
+    Settings settings;
 	game.Start("start", 60, 1600, 832);
+
+    settings.Save();
 	return 0;
 }

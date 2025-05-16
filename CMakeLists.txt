@@ -16,6 +16,8 @@ add_executable(2025_I2P2_TowerDefense
 
     File/User.cpp
     File/User.hpp
+    File/Settings.cpp
+    File/Settings.hpp
 
     Bullet/Bullet.cpp
     Bullet/Bullet.hpp
