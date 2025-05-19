@@ -558,13 +558,16 @@ std::vector<std::vector<int>> PlayScene::CalculateBFSDistance() {
             ny = p.y + dy[i];
             if (nx < 0 || nx >= MapWidth || ny < 0 || ny >= MapHeight) {
                 continue;
-            } else if (mapState[ny][nx] == TILE_DIRT && map[ny][nx] == -1) {
+            } else if (mapState[ny][nx] == TILE_DIRT) {
                 if (map[ny][nx] == -1) {
                     map[ny][nx] = map[p.y][p.x] + 1;
+                    que.push(Engine::Point(nx, ny));
+                } else if (map[ny][nx] > map[p.y][p.x] + 1) {
+                    map[ny][nx] = map[p.y][p.x] + 1;
+                    que.push(Engine::Point(nx, ny));
                 } else {
-                    map[ny][nx] = (map[p.y][p.x] + 1 > map[ny][nx]) ? map[ny][nx] : map[p.y][p.x] + 1;
+                    continue;
                 }
-                que.push(Engine::Point(nx, ny));
             } else {
                 continue;
             }

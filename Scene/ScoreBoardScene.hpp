@@ -24,6 +24,7 @@ public:
     void Initialize() override;
     void Terminate() override;
     void BackOnClick(int stage);
+    void MovePage(int line);
     void UpOnClick(int line);
     void DownOnClick(int line);
 };
