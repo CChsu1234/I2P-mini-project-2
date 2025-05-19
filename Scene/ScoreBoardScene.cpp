@@ -84,7 +84,6 @@ void ScoreBoardScene::MovePage(int line) {
     } else if (current_head_line + line < 0) {
         current_head_line = 0;
     } else {
-        std::cout << "move" << std::endl;
         current_head_line += line;
     }
 
@@ -95,10 +94,8 @@ void ScoreBoardScene::MovePage(int line) {
     }
 }
 void ScoreBoardScene::UpOnClick(int line) {
-    std::cout << "move up" << std::endl;
     MovePage(line);
 }
 void ScoreBoardScene::DownOnClick(int line) {
-    std::cout << "move down" << std::endl;
     MovePage(-line);
 }

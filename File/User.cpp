@@ -45,7 +45,6 @@ void UserTable::Update(void) {
     in >> now_user;
     for (int i = 0; i < now_user; i++) {
         in >> Useri;
-        std::cout << Useri << std::endl;
         AddNewUser(Useri);
     }
 
