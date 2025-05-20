@@ -46,12 +46,12 @@ void ScoreBoardScene::Initialize() {
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW * 1 / 2 - 250, halfH * 3 / 2 - 50, 400, 100);
     btn->SetOnClickCallback(std::bind(&ScoreBoardScene::DownOnClick, this, 1));
     AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("PAGE DOWN", "pirulen.ttf", 48, halfW * 1 / 2 - 50, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("PAGE DOWN", "pirulen.ttf", 40, halfW * 1 / 2 - 50, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
 
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW  * 3 / 2 - 150, halfH * 3 / 2 - 50, 400, 100);
     btn->SetOnClickCallback(std::bind(&ScoreBoardScene::UpOnClick, this, 1));
     AddNewControlObject(btn);
-    AddNewObject(new Engine::Label("PAGE UP", "pirulen.ttf", 48, halfW * 3 / 2 + 50, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
+    AddNewObject(new Engine::Label("PAGE UP", "pirulen.ttf", 40, halfW * 3 / 2 + 50, halfH * 3 / 2, 0, 0, 0, 255, 0.5, 0.5));
     /*
     btn = new Engine::ImageButton("stage-select/dirt.png", "stage-select/floor.png", halfW - 200, halfH * 3 / 2 - 50, 400, 100);
     btn->SetOnClickCallback(std::bind(&ScoreBoardScene::BackOnClick, this, 1));
@@ -94,8 +94,8 @@ void ScoreBoardScene::MovePage(int line) {
     }
 }
 void ScoreBoardScene::UpOnClick(int line) {
-    MovePage(line);
+    MovePage(-line);
 }
 void ScoreBoardScene::DownOnClick(int line) {
-    MovePage(-line);
+    MovePage(line);
 }
