@@ -34,7 +34,7 @@ void TankyEnemy::Hit(float damage) {
             // spawn_enemy->Update(i * 0.5);
             spawn_enemy->UpdatePath(getPlayScene()->mapDistance);
             // Compensate the time lost.
-            spawn_enemy->Update(i * 0.5);
+            spawn_enemy->Update((10 - i) * 0.5);
         }
         getPlayScene()->EnemyGroup->RemoveObject(objectIterator);
         AudioHelper::PlayAudio("explosion.wav");
